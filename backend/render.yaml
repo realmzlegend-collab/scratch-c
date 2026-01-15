@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: scratch-c-app
+    env: node
+    rootDir: backend        # Tells Render to look inside the backend folder
+    buildCommand: npm install
+    startCommand: node server.js
