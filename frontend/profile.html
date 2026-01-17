@@ -1,0 +1,621 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Scratch C</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #FFD700;
+            --secondary: #FF0000;
+            --accent: #0000FF;
+            --dark: #121212;
+            --light: #FFFFFF;
+            --gray: #2D2D2D;
+            --success: #00FF00;
+        }
+
+        body {
+            background: var(--dark);
+            color: var(--light);
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 2px solid var(--primary);
+            margin-bottom: 30px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .logo h1 {
+            font-size: 24px;
+            background: linear-gradient(45deg, var(--primary), var(--secondary));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
+
+        .back-btn {
+            padding: 10px 20px;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .profile-header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .profile-pic-container {
+            position: relative;
+            width: 150px;
+            height: 150px;
+            margin: 0 auto 20px;
+        }
+
+        .profile-pic {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            border: 4px solid var(--primary);
+            object-fit: cover;
+            cursor: pointer;
+            background: var(--gray);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 60px;
+        }
+
+        .change-pic-btn {
+            position: absolute;
+            bottom: 10px;
+            right: 10px;
+            background: var(--primary);
+            color: var(--dark);
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            font-size: 20px;
+        }
+
+        .profile-info {
+            text-align: center;
+        }
+
+        .profile-name {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: var(--primary);
+        }
+
+        .profile-email {
+            color: #888;
+            margin-bottom: 20px;
+        }
+
+        .stats-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            gap: 15px;
+            margin-bottom: 30px;
+        }
+
+        .stat-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 20px;
+            border-radius: 10px;
+            text-align: center;
+            border-left: 4px solid var(--primary);
+        }
+
+        .stat-value {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: #888;
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        .activity-section {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .activity-list {
+            max-height: 300px;
+            overflow-y: auto;
+        }
+
+        .activity-item {
+            padding: 15px;
+            border-bottom: 1px solid var(--gray);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .activity-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: rgba(255, 215, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+        }
+
+        .activity-details {
+            flex: 1;
+        }
+
+        .activity-title {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .activity-time {
+            color: #888;
+            font-size: 12px;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 15px;
+            justify-content: center;
+            margin-top: 30px;
+        }
+
+        .action-btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .edit-btn {
+            background: var(--primary);
+            color: var(--dark);
+        }
+
+        .logout-btn {
+            background: var(--secondary);
+            color: white;
+        }
+
+        /* Admin Access Modal */
+        .admin-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+        }
+
+        .admin-modal-content {
+            background: var(--dark);
+            padding: 40px;
+            border-radius: 15px;
+            text-align: center;
+            border: 2px solid var(--primary);
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .warning {
+            color: var(--secondary);
+            margin: 20px 0;
+            font-size: 14px;
+        }
+
+        .pin-input {
+            width: 100%;
+            padding: 15px;
+            margin: 20px 0;
+            font-size: 24px;
+            text-align: center;
+            letter-spacing: 10px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 2px solid var(--primary);
+            border-radius: 8px;
+            color: var(--light);
+        }
+
+        /* Ads */
+        .ads-container {
+            margin: 30px 0;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <h1>👤 Profile</h1>
+            </div>
+            <div>
+                <a href="/dashboard.html" class="back-btn">← Dashboard</a>
+            </div>
+        </div>
+
+        <!-- Ads -->
+        <div class="ads-container">
+            <ins class="adsbygoogle"
+                style="display:inline-block;width:728px;height:90px"
+                data-ad-client="ca-pub-1883805796264049"
+                data-ad-slot="3768074715"></ins>
+        </div>
+
+        <div class="profile-header">
+            <div class="profile-pic-container">
+                <div class="profile-pic" id="profilePic">👤</div>
+                <button class="change-pic-btn" onclick="changeProfilePic()">📷</button>
+            </div>
+            <div class="profile-info">
+                <div class="profile-name" id="profileName">Loading...</div>
+                <div class="profile-email" id="profileEmail">Loading...</div>
+                <div style="margin-top: 10px; font-size: 18px; color: var(--success);">
+                    Balance: <span id="profileBalance">0</span> Credits
+                </div>
+            </div>
+        </div>
+
+        <div class="stats-cards">
+            <div class="stat-card">
+                <div class="stat-value" id="booksReadStat">0</div>
+                <div class="stat-label">Books Read</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="moviesVotedStat">0</div>
+                <div class="stat-label">Movies Voted</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="itemsSoldStat">0</div>
+                <div class="stat-label">Items Sold</div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-value" id="totalEarnedStat">0</div>
+                <div class="stat-label">Total Earned</div>
+            </div>
+        </div>
+
+        <div class="activity-section">
+            <div class="section-title">
+                <span>📊 Recent Activity</span>
+                <span style="font-size: 14px; color: #888;">See All</span>
+            </div>
+            <div class="activity-list" id="activityList">
+                <!-- Activities will be loaded here -->
+            </div>
+        </div>
+
+        <div class="profile-actions">
+            <button class="action-btn edit-btn" onclick="editProfile()">✏️ Edit Profile</button>
+            <button class="action-btn logout-btn" onclick="logout()">🚪 Logout</button>
+        </div>
+
+        <!-- Social Links -->
+        <div style="text-align: center; margin-top: 30px;">
+            <h3 style="color: var(--primary); margin-bottom: 15px;">Join Our Community</h3>
+            <div style="display: flex; gap: 15px; justify-content: center;">
+                <button onclick="window.open('https://t.me/+60VfBwiQ5Z01Yjk0', '_blank')" style="padding: 10px 20px; background: #0088cc; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    📱 Telegram Group
+                </button>
+                <button onclick="window.open('https://chat.whatsapp.com/KGLi5AZqcH1FTxUoTscw2N', '_blank')" style="padding: 10px 20px; background: #25D366; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                    👥 WhatsApp Community
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Admin Access Modal -->
+    <div id="adminModal" class="admin-modal">
+        <div class="admin-modal-content">
+            <h2 style="color: var(--primary);">🔐 Admin Access</h2>
+            <div class="warning">
+                ⚠️ WARNING: Don't enter a wrong code if you don't have any idea of this room or else you'll lose your account.
+            </div>
+            <input type="password" class="pin-input" id="adminPin" maxlength="6" placeholder="000000">
+            <div style="margin-top: 20px;">
+                <button onclick="verifyAdminPin()" style="padding: 12px 30px; background: var(--primary); color: var(--dark); border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                    Verify PIN
+                </button>
+                <button onclick="closeAdminModal()" style="padding: 12px 30px; background: var(--secondary); color: white; border: none; border-radius: 8px; margin-left: 10px; cursor: pointer;">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Command Modal -->
+    <div id="commandModal" class="admin-modal" style="display: none;">
+        <div class="admin-modal-content">
+            <h2 style="color: var(--primary);">🔐 Admin Command</h2>
+            <p>What is your scratchterra command?</p>
+            <input type="text" class="pin-input" id="adminCommand" style="letter-spacing: normal; font-size: 16px;" placeholder="Enter command">
+            <div style="margin-top: 20px;">
+                <button onclick="verifyAdminCommand()" style="padding: 12px 30px; background: var(--primary); color: var(--dark); border: none; border-radius: 8px; font-weight: bold; cursor: pointer;">
+                    Submit Command
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Initialize Google Ads
+        (adsbygoogle = window.adsbygoogle || []).push({});
+
+        let tapCount = 0;
+        let lastTapTime = 0;
+
+        async function loadProfile() {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = '/index.html';
+                return;
+            }
+
+            try {
+                const response = await fetch('/api/auth/profile', {
+                    headers: {
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    updateProfile(data.user);
+                } else {
+                    logout();
+                }
+            } catch (error) {
+                console.error('Error loading profile:', error);
+            }
+        }
+
+        function updateProfile(user) {
+            document.getElementById('profileName').textContent = user.username;
+            document.getElementById('profileEmail').textContent = user.email;
+            document.getElementById('profileBalance').textContent = user.balance || 0;
+            document.getElementById('profilePic').textContent = user.username.charAt(0).toUpperCase();
+            
+            // Update stats
+            document.getElementById('booksReadStat').textContent = user.readBooks?.length || 0;
+            document.getElementById('moviesVotedStat').textContent = user.votedMovies?.length || 0;
+            document.getElementById('itemsSoldStat').textContent = user.purchasedItems?.length || 0;
+            document.getElementById('totalEarnedStat').textContent = (user.totalEarned || 0) + 'C';
+            
+            // Store user data
+            localStorage.setItem('user', JSON.stringify(user));
+        }
+
+        function editProfile() {
+            const user = JSON.parse(localStorage.getItem('user'));
+            const newName = prompt('Enter new username:', user.username);
+            
+            if (newName && newName !== user.username) {
+                updateProfileName(newName);
+            }
+        }
+
+        async function updateProfileName(newName) {
+            const token = localStorage.getItem('token');
+            
+            try {
+                const response = await fetch('/api/auth/profile', {
+                    method: 'PUT',
+                    headers: {
+                        'Authorization': `Bearer ${token}`,
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ username: newName })
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    updateProfile(data.user);
+                    alert('Profile updated successfully!');
+                }
+            } catch (error) {
+                console.error('Error updating profile:', error);
+            }
+        }
+
+        function changeProfilePic() {
+            alert('Profile picture upload feature coming soon!');
+        }
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = '/index.html';
+        }
+
+        // Handle profile pic taps for admin access
+        document.getElementById('profilePic').addEventListener('click', function(e) {
+            const currentTime = new Date().getTime();
+            const tapLength = currentTime - lastTapTime;
+            
+            if (tapLength < 500 && tapLength > 0) {
+                tapCount++;
+            } else {
+                tapCount = 1;
+            }
+            
+            lastTapTime = currentTime;
+            
+            if (tapCount === 7) {
+                e.preventDefault();
+                e.stopPropagation();
+                openAdminModal();
+                tapCount = 0;
+            }
+        });
+
+        function openAdminModal() {
+            document.getElementById('adminModal').style.display = 'flex';
+            document.getElementById('adminPin').focus();
+        }
+
+        function closeAdminModal() {
+            document.getElementById('adminModal').style.display = 'none';
+            document.getElementById('commandModal').style.display = 'none';
+            document.getElementById('adminPin').value = '';
+            document.getElementById('adminCommand').value = '';
+        }
+
+        function verifyAdminPin() {
+            const pin = document.getElementById('adminPin').value;
+            
+            if (pin === '141612') {
+                document.getElementById('adminModal').style.display = 'none';
+                document.getElementById('commandModal').style.display = 'flex';
+                document.getElementById('adminCommand').focus();
+            } else {
+                alert('Wrong PIN! Your account will be disabled if you attempt unauthorized access.');
+                document.getElementById('adminPin').value = '';
+            }
+        }
+
+        async function verifyAdminCommand() {
+            const command = document.getElementById('adminCommand').value;
+            
+            if (command === 'MENU BOUNCER 0 REAL TO 1') {
+                const token = localStorage.getItem('token');
+                
+                try {
+                    const response = await fetch('/api/admin/verify', {
+                        method: 'POST',
+                        headers: {
+                            'Authorization': `Bearer ${token}`,
+                            'Content-Type': 'application/json'
+                        },
+                        body: JSON.stringify({
+                            pin: '141612',
+                            command: 'MENU BOUNCER 0 REAL TO 1'
+                        })
+                    });
+
+                    if (response.ok) {
+                        alert('Admin access granted!');
+                        window.location.href = '/admin.html';
+                    } else {
+                        alert('Failed to verify admin access');
+                    }
+                } catch (error) {
+                    console.error('Admin verification error:', error);
+                }
+            } else {
+                alert('Invalid command!');
+                document.getElementById('adminCommand').value = '';
+            }
+        }
+
+        async function loadRecentActivity() {
+            // This would normally fetch from an API endpoint
+            const activities = [
+                { icon: '📚', title: 'Started reading "The Great Novel"', time: '2 hours ago' },
+                { icon: '🎬', title: 'Voted for "Action Movie"', time: '5 hours ago' },
+                { icon: '🛒', title: 'Purchased "Digital Code" for 100 credits', time: '1 day ago' },
+                { icon: '💰', title: 'Earned 50 credits from reading', time: '2 days ago' },
+                { icon: '👥', title: 'Joined WhatsApp community', time: '3 days ago' }
+            ];
+
+            const activityList = document.getElementById('activityList');
+            activityList.innerHTML = '';
+
+            activities.forEach(activity => {
+                const activityItem = document.createElement('div');
+                activityItem.className = 'activity-item';
+                activityItem.innerHTML = `
+                    <div class="activity-icon">${activity.icon}</div>
+                    <div class="activity-details">
+                        <div class="activity-title">${activity.title}</div>
+                        <div class="activity-time">${activity.time}</div>
+                    </div>
+                `;
+                activityList.appendChild(activityItem);
+            });
+        }
+
+        // Initialize page
+        window.addEventListener('DOMContentLoaded', () => {
+            loadProfile();
+            loadRecentActivity();
+        });
+
+        // Close modals on outside click
+        document.querySelectorAll('.admin-modal').forEach(modal => {
+            modal.addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeAdminModal();
+                }
+            });
+        });
+
+        // Handle Enter key in admin modal
+        document.getElementById('adminPin').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyAdminPin();
+            }
+        });
+
+        document.getElementById('adminCommand').addEventListener('keypress', function(e) {
+            if (e.key === 'Enter') {
+                verifyAdminCommand();
+            }
+        });
+    </script>
+</body>
+              </html>
