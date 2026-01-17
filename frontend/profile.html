@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>User Profile | ConnectHub</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --primary: #4f46e5;
+            --secondary: #7c3aed;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #94a3b8;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --danger: #ef4444;
+        }
+
+        body {
+            background-color: #f1f5f9;
+            color: var(--dark);
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 1.8rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo i {
+            font-size: 2rem;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 500;
+            transition: color 0.3s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav a:hover {
+            color: var(--primary);
+        }
+
+        .profile-header {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background: white;
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
+            margin-bottom: 30px;
+            position: relative;
+        }
+
+        .cover-photo {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border-radius: 15px 15px 0 0;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 1;
+        }
+
+        .profile-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            z-index: 2;
+            width: 100%;
+            margin-top: 100px;
+        }
+
+        .profile-image {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 5px solid white;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            margin-bottom: 20px;
+        }
+
+        .profile-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .profile-name {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .profile-title {
+            color: var(--gray);
+            font-size: 1.1rem;
+            margin-bottom: 15px;
+        }
+
+        .profile-location {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--gray);
+            margin-bottom: 25px;
+        }
+
+        .profile-stats {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            width: 100%;
+            max-width: 600px;
+            margin-top: 20px;
+        }
+
+        .stat-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .stat-label {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .profile-actions {
+            display: flex;
+            gap: 15px;
+            margin-top: 30px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            border-radius: 10px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            transition: all 0.3s;
+            border: none;
+            font-size: 1rem;
+        }
+
+        .btn-primary {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .btn-primary:hover {
+            background-color: #4338ca;
+            transform: translateY(-2px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            color: var(--primary);
+            border: 2px solid var(--primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(79, 70, 229, 0.05);
+        }
+
+        .profile-body {
+            display: grid;
+            grid-template-columns: 1fr 2fr;
+            gap: 30px;
+        }
+
+        .card {
+            background: white;
+            border-radius: 15px;
+            padding: 25px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+        }
+
+        .card-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 20px;
+            padding-bottom: 15px;
+            border-bottom: 1px solid #e2e8f0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .about-text {
+            color: #64748b;
+            line-height: 1.7;
+        }
+
+        .info-list {
+            list-style: none;
+        }
+
+        .info-list li {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .info-list li:last-child {
+            border-bottom: none;
+        }
+
+        .info-icon {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background-color: rgba(79, 70, 229, 0.1);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary);
+        }
+
+        .skill-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 15px;
+        }
+
+        .tag {
+            background-color: #e0e7ff;
+            color: var(--primary);
+            padding: 8px 16px;
+            border-radius: 50px;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .activity-item {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            padding: 15px 0;
+            border-bottom: 1px solid #f1f5f9;
+        }
+
+        .activity-icon {
+            width: 50px;
+            height: 50px;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+        }
+
+        .activity-icon.work {
+            background-color: var(--primary);
+        }
+
+        .activity-icon.project {
+            background-color: var(--success);
+        }
+
+        .activity-icon.award {
+            background-color: var(--warning);
+        }
+
+        .activity-details h4 {
+            font-weight: 600;
+            margin-bottom: 5px;
+        }
+
+        .activity-details p {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .activity-time {
+            margin-left: auto;
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        .footer {
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+            color: var(--gray);
+            border-top: 1px solid #e2e8f0;
+        }
+
+        @media (max-width: 992px) {
+            .profile-body {
+                grid-template-columns: 1fr;
+            }
+            
+            .profile-stats {
+                gap: 20px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            header {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .profile-stats {
+                flex-wrap: wrap;
+                gap: 30px;
+            }
+            
+            .profile-actions {
+                flex-direction: column;
+                width: 100%;
+            }
+            
+            .btn {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <div class="logo">
+                <i class="fas fa-users"></i>
+                <span>ConnectHub</span>
+            </div>
+            <nav>
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> Home</a></li>
+                    <li><a href="#"><i class="fas fa-user-friends"></i> Network</a></li>
+                    <li><a href="#" class="active"><i class="fas fa-user-circle"></i> Profile</a></li>
+                    <li><a href="#"><i class="fas fa-bell"></i> Notifications</a></li>
+                    <li><a href="#"><i class="fas fa-cog"></i> Settings</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <div class="profile-header">
+            <div class="cover-photo"></div>
+            <div class="profile-content">
+                <div class="profile-image">
+                    <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=774&q=80" alt="Profile Picture">
+                </div>
+                <h1 class="profile-name">Alex Morgan</h1>
+                <p class="profile-title">Senior UX Designer & Frontend Developer</p>
+                <div class="profile-location">
+                    <i class="fas fa-map-marker-alt"></i>
+                    <span>San Francisco, California</span>
+                </div>
+                <div class="profile-stats">
+                    <div class="stat-item">
+                        <div class="stat-value">247</div>
+                        <div class="stat-label">Connections</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">42</div>
+                        <div class="stat-label">Projects</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">18</div>
+                        <div class="stat-label">Posts</div>
+                    </div>
+                    <div class="stat-item">
+                        <div class="stat-value">89</div>
+                        <div class="stat-label">Following</div>
+                    </div>
+                </div>
+                <div class="profile-actions">
+                    <button class="btn btn-primary">
+                        <i class="fas fa-paper-plane"></i> Send Message
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-user-plus"></i> Connect
+                    </button>
+                    <button class="btn btn-outline">
+                        <i class="fas fa-ellipsis-h"></i> More
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <div class="profile-body">
+            <div class="left-column">
+                <div class="card about-card">
+                    <h2 class="card-title"><i class="fas fa-user"></i> About</h2>
+                    <p class="about-text">
+                        Passionate UX designer and frontend developer with over 8 years of experience creating digital products that are both beautiful and functional. I specialize in creating intuitive user interfaces and seamless user experiences.
+                    </p>
+                    <p class="about-text" style="margin-top: 15px;">
+                        Currently leading design at TechVision Inc. Previously worked at CreativeMinds and DigitalSolutions.
+                    </p>
+                </div>
+
+                <div class="card info-card">
+                    <h2 class="card-title"><i class="fas fa-info-circle"></i> Contact Information</h2>
+                    <ul class="info-list">
+                        <li>
+                            <div class="info-icon">
+                                <i class="fas fa-envelope"></i>
+                            </div>
+                            <div>
+                                <strong>Email</strong>
+                                <p>alex.morgan@example.com</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="info-icon">
+                                <i class="fas fa-phone"></i>
+                            </div>
+                            <div>
+                                <strong>Phone</strong>
+                                <p>+1 (555) 123-4567</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="info-icon">
+                                <i class="fas fa-globe"></i>
+                            </div>
+                            <div>
+                                <strong>Website</strong>
+                                <p>www.alexmorgan.design</p>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="info-icon">
+                                <i class="fab fa-linkedin"></i>
+                            </div>
+                            <div>
+                                <strong>LinkedIn</strong>
+                                <p>linkedin.com/in/alexmorgan</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+
+                <div class="card skills-card">
+                    <h2 class="card-title"><i class="fas fa-code"></i> Skills</h2>
+                    <div class="skill-tags">
+                        <span class="tag">UI/UX Design</span>
+                        <span class="tag">Figma</span>
+                        <span class="tag">Adobe Creative Suite</span>
+                        <span class="tag">HTML/CSS</span>
+                        <span class="tag">JavaScript</span>
+                        <span class="tag">React</span>
+                        <span class="tag">User Research</span>
+                        <span class="tag">Prototyping</span>
+                        <span class="tag">Wireframing</span>
+                        <span class="tag">Responsive Design</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="right-column">
+                <div class="card activity-card">
+                    <h2 class="card-title"><i class="fas fa-history"></i> Recent Activity</h2>
+                    <div class="activity-item">
+                        <div class="activity-icon work">
+                            <i class="fas fa-briefcase"></i>
+                        </div>
+                        <div class="activity-details">
+                            <h4>Started new position at TechVision Inc.</h4>
+                            <p>Joined as Senior UX Designer</p>
+                        </div>
+                        <div class="activity-time">2 days ago</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon project">
+                            <i class="fas fa-project-diagram"></i>
+                        </div>
+                        <div class="activity-details">
+                            <h4>Published new case study</h4>
+                            <p>"Redesigning E-commerce Checkout Experience"</p>
+                        </div>
+                        <div class="activity-time">1 week ago</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon award">
+                            <i class="fas fa-award"></i>
+                        </div>
+                        <div class="activity-details">
+                            <h4>Received Design Excellence Award</h4>
+                            <p>For outstanding contribution to UX community</p>
+                        </div>
+                        <div class="activity-time">2 weeks ago</div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon work">
+                            <i class="fas fa-users"></i>
+                        </div>
+                        <div class="activity-details">
+                            <h4>Conducted workshop on Design Thinking</h4>
+                            <p>Attended by 150+ professionals</p>
+                        </div>
+                        <div class="activity-time">3 weeks ago</div>
+                    </div>
+                </div>
+
+                <div class="card gallery-card">
+                    <h2 class="card-title"><i class="fas fa-images"></i> Project Gallery</h2>
+                    <div style="display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin-top: 20px;">
+                        <div style="height: 100px; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); border-radius: 10px;"></div>
+                        <div style="height: 100px; background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); border-radius: 10px;"></div>
+                        <div style="height: 100px; background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); border-radius: 10px;"></div>
+                        <div style="height: 100px; background: linear-gradient(135deg, #43e97b 0%, #38f9d7 100%); border-radius: 10px;"></div>
+                        <div style="height: 100px; background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); border-radius: 10px;"></div>
+                        <div style="height: 100px; background: linear-gradient(135deg, #30cfd0 0%, #330867 100%); border-radius: 10px;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <footer class="footer">
+            <p>&copy; 2023 ConnectHub. All rights reserved. | <a href="#" style="color: var(--primary); text-decoration: none;">Privacy Policy</a> | <a href="#" style="color: var(--primary); text-decoration: none;">Terms of Service</a></p>
+        </footer>
+    </div>
+
+    <script>
+        // Interactive button functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const connectBtn = document.querySelector('.btn-outline:first-of-type');
+            const sendMessageBtn = document.querySelector('.btn-primary');
+            const moreBtn = document.querySelector('.btn-outline:last-of-type');
+            
+            connectBtn.addEventListener('click', function() {
+                if (connectBtn.innerHTML.includes('Connect')) {
+                    connectBtn.innerHTML = '<i class="fas fa-check"></i> Connected';
+                    connectBtn.style.backgroundColor = 'var(--success)';
+                    connectBtn.style.color = 'white';
+                    connectBtn.style.borderColor = 'var(--success)';
+                    
+                    // Update connections count
+                    const connectionsStat = document.querySelector('.stat-value:first-child');
+                    connectionsStat.textContent = parseInt(connectionsStat.textContent) + 1;
+                    
+                    // Show notification
+                    showNotification('Successfully connected with Alex Morgan!');
+                } else {
+                    connectBtn.innerHTML = '<i class="fas fa-user-plus"></i> Connect';
+                    connectBtn.style.backgroundColor = '';
+                    connectBtn.style.color = '';
+                    connectBtn.style.borderColor = '';
+                    
+                    // Update connections count
+                    const connectionsStat = document.querySelector('.stat-value:first-child');
+                    connectionsStat.textContent = parseInt(connectionsStat.textContent) - 1;
+                    
+                    // Show notification
+                    showNotification('Connection removed with Alex Morgan.');
+                }
+            });
+            
+            sendMessageBtn.addEventListener('click', function() {
+                showNotification('Message dialog would open here.');
+            });
+            
+            moreBtn.addEventListener('click', function() {
+                // Toggle a dropdown menu in a real application
+                showNotification('More options menu would appear here.');
+            });
+            
+            // Function to show temporary notification
+            function showNotification(message) {
+                // Remove existing notification if present
+                const existingNotification = document.querySelector('.notification');
+                if (existingNotification) {
+                    existingNotification.remove();
+                }
+                
+                // Create notification element
+                const notification = document.createElement('div');
+                notification.className = 'notification';
+                notification.textContent = message;
+                notification.style.cssText = `
+                    position: fixed;
+                    top: 20px;
+                    right: 20px;
+                    background: var(--primary);
+                    color: white;
+                    padding: 15px 25px;
+                    border-radius: 10px;
+                    z-index: 1000;
+                    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+                    animation: slideIn 0.3s ease-out;
+                `;
+                
+                // Add CSS for animation
+                const style = document.createElement('style');
+                style.textContent = `
+                    @keyframes slideIn {
+                        from { transform: translateX(100%); opacity: 0; }
+                        to { transform: translateX(0); opacity: 1; }
+                    }
+                `;
+                document.head.appendChild(style);
+                
+                document.body.appendChild(notification);
+                
+                // Remove notification after 3 seconds
+                setTimeout(() => {
+                    notification.style.animation = 'slideOut 0.3s ease-out forwards';
+                    
+                    // Add slideOut animation
+                    const slideOutStyle = document.createElement('style');
+                    slideOutStyle.textContent = `
+                        @keyframes slideOut {
+                            from { transform: translateX(0); opacity: 1; }
+                            to { transform: translateX(100%); opacity: 0; }
+                        }
+                    `;
+                    document.head.appendChild(slideOutStyle);
+                    
+                    setTimeout(() => {
+                        notification.remove();
+                    }, 300);
+                }, 3000);
+            }
+        });
+    </script>
+</body>
+</html>
