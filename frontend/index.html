@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scratch C - Earn & Connect</title>
+    <script src="https://telegram.org/js/telegram-web-app.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        :root {
+            --primary: #FFD700;
+            --secondary: #FF0000;
+            --accent: #0000FF;
+            --dark: #121212;
+            --light: #FFFFFF;
+            --gray: #2D2D2D;
+            --success: #00FF00;
+            --card-bg: rgba(255, 255, 255, 0.05);
+            --shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            --gradient: linear-gradient(135deg, #FFD700, #FFA500, #FF0000);
+        }
+
+        body {
+            background: linear-gradient(135deg, #0a0a0a 0%, #1a1a1a 100%);
+            color: var(--light);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        .animated-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .bg-particle {
+            position: absolute;
+            border-radius: 50%;
+            background: radial-gradient(circle, var(--primary), transparent);
+            animation: float 15s infinite linear;
+        }
+
+        @keyframes float {
+            0% { transform: translateY(0) translateX(0); opacity: 0.3; }
+            25% { transform: translateY(-100px) translateX(100px); opacity: 0.5; }
+            50% { transform: translateY(-200px) translateX(-100px); opacity: 0.3; }
+            75% { transform: translateY(-100px) translateX(-200px); opacity: 0.5; }
+            100% { transform: translateY(0) translateX(0); opacity: 0.3; }
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 0 auto;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .logo-container {
+            text-align: center;
+            margin-bottom: 40px;
+            animation: fadeInDown 1s ease;
+        }
+
+        .logo-main {
+            width: 120px;
+            height: 120px;
+            margin: 0 auto 20px;
+            background: var(--gradient);
+            border-radius: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            animation: pulse 2s infinite;
+            box-shadow: 0 10px 30px rgba(255, 215, 0, 0.3);
+        }
+
+        .logo-main::before {
+            content: '';
+            position: absolute;
+            top: -10px;
+            left: -10px;
+            right: -10px;
+            bottom: -10px;
+            border-radius: 40px;
+            background: var(--gradient);
+            z-index: -1;
+            filter: blur(20px);
+            opacity: 0.5;
+        }
+
+        .logo-text {
+            font-size: 48px;
+            font-weight: 900;
+            color: var(--light);
+            text-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+        }
+
+        .logo-subtext {
+            font-size: 24px;
+            font-weight: 700;
+            color: var(--primary);
+            margin-top: 10px;
+            letter-spacing: 3px;
+            text-transform: uppercase;
+        }
+
+        .auth-container {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border-radius: 25px;
+            padding: 40px 30px;
+            border: 1px solid rgba(255, 215, 0, 0.2);
+            box-shadow: var(--shadow);
+            animation: slideUp 1s ease;
+        }
+
+        .telegram-info {
+            background: rgba(0, 136, 204, 0.1);
+            border: 2px solid #0088cc;
+            border-radius: 20px;
+            padding: 20px;
+            margin-bottom: 30px;
+            text-align: center;
+            animation: fadeIn 1s ease;
+        }
+
+        .telegram-user {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .telegram-avatar {
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #0088cc, #00aced);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            font-weight: bold;
+            color: white;
+        }
+
+        .telegram-details {
+            text-align: left;
+            flex: 1;
+        }
+
+        .telegram-name {
+            font-weight: bold;
+            font-size: 18px;
+            color: var(--light);
+        }
+
+        .telegram-username {
+            color: #0088cc;
+            font-size: 14px;
+        }
+
+        .telegram-badge {
+            background: #0088cc;
+            color: white;
+            padding: 5px 10px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            margin-top: 5px;
+        }
+
+        .auth-btn {
+            width: 100%;
+            padding: 20px;
+            background: var(--gradient);
+            border: none;
+            border-radius: 15px;
+            color: var(--dark);
+            font-size: 18px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 15px;
+            margin-top: 20px;
+            box-shadow: 0 10px 20px rgba(255, 215, 0, 0.2);
+            animation: pulse 2s infinite;
+        }
+
+        .auth-btn:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(255, 215, 0, 0.4);
+        }
+
+        .auth-btn:active {
+            transform: translateY(-2px);
+        }
+
+        .success-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.95);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease;
+        }
+
+        .success-content {
+            background: linear-gradient(135deg, #1a1a1a, #2a2a2a);
+            padding: 50px;
+            border-radius: 30px;
+            text-align: center;
+            border: 2px solid var(--success);
+            max-width: 400px;
+            width: 90%;
+            animation: scaleIn 0.5s ease;
+        }
+
+        .success-icon {
+            width: 100px;
+            height: 100px;
+            background: var(--success);
+            border-radius: 50%;
+            margin: 0 auto 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 50px;
+            color: var(--dark);
+            animation: bounce 1s ease;
+        }
+
+        .success-message {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--success);
+            margin-bottom: 20px;
+        }
+
+        .success-details {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            line-height: 1.6;
+        }
+
+        .loading-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, #0a0a0a, #1a1a1a);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            flex-direction: column;
+        }
+
+        .loading-spinner {
+            width: 80px;
+            height: 80px;
+            border: 5px solid rgba(255, 215, 0, 0.1);
+            border-radius: 50%;
+            border-top-color: var(--primary);
+            animation: spin 1s linear infinite;
+            margin-bottom: 30px;
+        }
+
+        .loading-text {
+            font-size: 18px;
+            color: var(--primary);
+            font-weight: 600;
+            letter-spacing: 2px;
+        }
+
+        .welcome-message {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: rgba(255, 215, 0, 0.1);
+            border-radius: 15px;
+            border-left: 4px solid var(--primary);
+        }
+
+        .welcome-title {
+            font-size: 24px;
+            color: var(--primary);
+            margin-bottom: 10px;
+            font-weight: bold;
+        }
+
+        .welcome-text {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            line-height: 1.5;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 15px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 2px solid rgba(255, 215, 0, 0.1);
+            border-radius: 12px;
+            color: var(--light);
+            font-size: 16px;
+            transition: all 0.3s ease;
+            outline: none;
+        }
+
+        .form-input:focus {
+            border-color: var(--primary);
+            box-shadow: 0 0 15px rgba(255, 215, 0, 0.2);
+        }
+
+        .form-input::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+        }
+
+        .error-message {
+            color: var(--secondary);
+            background: rgba(255, 0, 0, 0.1);
+            padding: 10px;
+            border-radius: 10px;
+            margin: 10px 0;
+            text-align: center;
+            font-size: 14px;
+            border: 1px solid rgba(255, 0, 0, 0.2);
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(50px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        @keyframes scaleIn {
+            from { opacity: 0; transform: scale(0.8); }
+            to { opacity: 1; transform: scale(1); }
+        }
+
+        @keyframes bounce {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.1); }
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 15px; }
+            .auth-container { padding: 30px 20px; }
+            .logo-main { width: 100px; height: 100px; }
+            .logo-text { font-size: 36px; }
+            .logo-subtext { font-size: 20px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-bg" id="animatedBg"></div>
+
+    <div class="loading-overlay" id="loadingOverlay">
+        <div class="loading-spinner"></div>
+        <div class="loading-text" id="loadingText">Loading...</div>
+    </div>
+
+    <div class="success-overlay" id="successOverlay">
+        <div class="success-content">
+            <div class="success-icon">
+                <i class="fas fa-check"></i>
+            </div>
+            <div class="success-message" id="successMessage">Success!</div>
+            <div class="success-details" id="successDetails"></div>
+        </div>
+    </div>
+
+    <div class="container">
+        <div class="logo-container">
+            <div class="logo-main">
+                <div class="logo-text">SC</div>
+            </div>
+            <div class="logo-subtext">SCRATCH C</div>
+        </div>
+
+        <div class="auth-container">
+            <div class="welcome-message">
+                <div class="welcome-title">Welcome to Scratch C!</div>
+                <div class="welcome-text">Connect your Telegram account to start earning rewards</div>
+            </div>
+
+            <div class="telegram-info" id="telegramInfo" style="display: none;">
+                <div class="telegram-user">
+                    <div class="telegram-avatar" id="telegramAvatar"></div>
+                    <div class="telegram-details">
+                        <div class="telegram-name" id="telegramName"></div>
+                        <div class="telegram-username" id="telegramUsername"></div>
+                        <div class="telegram-badge">
+                            <i class="fab fa-telegram"></i> Telegram User
+                        </div>
+                    </div>
+                </div>
+                <div id="userStatusMessage" style="margin-top: 15px; font-size: 14px; color: var(--primary);"></div>
+            </div>
+
+            <button class="auth-btn" id="allowButton" style="display: none;" onclick="processTelegramUser()">
+                <i class="fab fa-telegram"></i> Allow & Continue to Dashboard
+            </button>
+
+            <div id="manualLogin" style="display: none; text-align: center; margin-top: 20px;">
+                <div style="color: rgba(255,255,255,0.7); margin-bottom: 15px; font-size: 14px;">Or login manually:</div>
+                <div class="form-group">
+                    <input type="text" class="form-input" id="manualUsername" placeholder="Enter username">
+                </div>
+                <div class="form-group">
+                    <input type="password" class="form-input" id="manualPassword" placeholder="Enter password">
+                </div>
+                <button class="auth-btn" onclick="manualLogin()" style="background: var(--accent);">
+                    <i class="fas fa-sign-in-alt"></i> Manual Login
+                </button>
+            </div>
+
+            <div id="errorContainer" style="display: none;"></div>
+        </div>
+    </div>
+
+    <script>
+        // Global variables
+        var tg = null;
+        var telegramUser = null;
+        var telegramInitData = '';
+        var isExistingUser = false;
+
+        // Create background particles
+        function createBackgroundParticles() {
+            var bg = document.getElementById('animatedBg');
+            for (var i = 0; i < 20; i++) {
+                var particle = document.createElement('div');
+                particle.className = 'bg-particle';
+                var size = Math.random() * 100 + 50;
+                particle.style.width = size + 'px';
+                particle.style.height = size + 'px';
+                particle.style.left = Math.random() * 100 + '%';
+                particle.style.top = Math.random() * 100 + '%';
+                particle.style.animationDelay = Math.random() * 15 + 's';
+                particle.style.animationDuration = (Math.random() * 10 + 10) + 's';
+                bg.appendChild(particle);
+            }
+        }
+
+        // Show loading
+        function showLoading(message) {
+            if (!message) message = 'Loading...';
+            document.getElementById('loadingText').textContent = message;
+            document.getElementById('loadingOverlay').style.display = 'flex';
+        }
+
+        // Hide loading
+        function hideLoading() {
+            document.getElementById('loadingOverlay').style.display = 'none';
+        }
+
+        // Show error
+        function showError(message) {
+            var errorContainer = document.getElementById('errorContainer');
+            errorContainer.innerHTML = '<div class="error-message"><i class="fas fa-exclamation-circle"></i> ' + message + '</div>';
+            errorContainer.style.display = 'block';
+        }
+
+        // Show success and redirect
+        function showSuccess(message, details, redirectUrl, delay) {
+            if (!redirectUrl) redirectUrl = 'dashboard.html';
+            if (!delay) delay = 1500;
+            
+            document.getElementById('successMessage').textContent = message;
+            document.getElementById('successDetails').textContent = details;
+            document.getElementById('successOverlay').style.display = 'flex';
+            
+            setTimeout(function() {
+                window.location.href = redirectUrl;
+            }, delay);
+        }
+
+        // Initialize Telegram
+        function initTelegramApp() {
+            showLoading('Connecting to Telegram...');
+            
+            // Check if Telegram Web App is available
+            if (window.Telegram && window.Telegram.WebApp) {
+                tg = window.Telegram.WebApp;
+            } else {
+                console.log('Telegram Web App not found, using manual mode');
+                showManualLogin();
+                return;
+            }
+            
+            // Initialize Telegram Web App
+            try {
+                tg.expand();
+                tg.enableClosingConfirmation();
+                
+                // Get Telegram user data
+                telegramUser = tg.initDataUnsafe ? tg.initDataUnsafe.user : null;
+                telegramInitData = tg.initData || '';
+                
+                if (!telegramUser || !telegramUser.id) {
+                    throw new Error('No Telegram user data available');
+                }
+                
+                // Display Telegram user info
+                displayTelegramUserInfo();
+                
+                // Check if user exists
+                checkUserExists();
+                
+            } catch (error) {
+                console.error('Telegram init error:', error);
+                showError('Telegram connection failed: ' + error.message);
+                showManualLogin();
+            }
+        }
+
+        // Display Telegram user info
+        function displayTelegramUserInfo() {
+            var telegramInfo = document.getElementById('telegramInfo');
+            var telegramAvatar = document.getElementById('telegramAvatar');
+            var telegramName = document.getElementById('telegramName');
+            var telegramUsername = document.getElementById('telegramUsername');
+            
+            telegramInfo.style.display = 'block';
+            
+            // Set avatar
+            if (telegramUser.photo_url) {
+                telegramAvatar.style.backgroundImage = 'url("' + telegramUser.photo_url + '")';
+                telegramAvatar.style.backgroundSize = 'cover';
+                telegramAvatar.textContent = '';
+            } else {
+                var firstName = telegramUser.first_name || '';
+                var lastName = telegramUser.last_name || '';
+                var firstChar = firstName.charAt(0) || 'T';
+                var lastChar = lastName.charAt(0) || 'G';
+                telegramAvatar.textContent = firstChar + lastChar;
+            }
+            
+            // Set name
+            var fullName = telegramUser.first_name || '';
+            if (telegramUser.last_name) {
+                fullName += ' ' + telegramUser.last_name;
+            }
+            telegramName.textContent = fullName || 'Telegram User';
+            
+            // Set username
+            if (telegramUser.username) {
+                telegramUsername.textContent = '@' + telegramUser.username;
+            } else {
+                telegramUsername.textContent = 'No username';
+            }
+        }
+
+        // Check if user exists in backend
+        function checkUserExists() {
+            var backendUrl = window.location.origin;
+            
+            fetch(backendUrl + '/api/auth/telegram/check', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    telegramId: telegramUser.id,
+                    initData: telegramInitData
+                })
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                if (data && data.success) {
+                    isExistingUser = data.data.exists;
+                    
+                    var statusMessage = document.getElementById('userStatusMessage');
+                    var allowButton = document.getElementById('allowButton');
+                    
+                    if (isExistingUser) {
+                        statusMessage.innerHTML = '<div style="text-align: center; color: var(--success);">' +
+                            '<i class="fas fa-check-circle"></i> Account found! Click to continue.' +
+                            '</div>';
+                        allowButton.innerHTML = '<i class="fas fa-sign-in-alt"></i> Continue to Dashboard';
+                    } else {
+                        statusMessage.innerHTML = '<div style="text-align: center; color: var(--primary);">' +
+                            '<i class="fas fa-user-plus"></i> New user! Click to create account.' +
+                            '</div>';
+                        allowButton.innerHTML = '<i class="fas fa-rocket"></i> Create Account';
+                    }
+                    
+                    allowButton.style.display = 'flex';
+                    hideLoading();
+                    
+                } else {
+                    throw new Error(data ? data.error : 'Invalid response');
+                }
+            })
+            .catch(function(error) {
+                console.error('Check user error:', error);
+                showError('Cannot check user: ' + error.message);
+                showManualLogin();
+            });
+        }
+
+        // Process Telegram user (signup/login)
+        function processTelegramUser() {
+            if (!telegramUser) {
+                showError('No Telegram user data');
+                return;
+            }
+            
+            showLoading(isExistingUser ? 'Logging in...' : 'Creating account...');
+            
+            var backendUrl = window.location.origin;
+            var endpoint = isExistingUser ? '/api/auth/telegram/login' : '/api/auth/telegram/signup';
+            
+            var userData = {
+                telegramId: telegramUser.id,
+                initData: telegramInitData,
+                firstName: telegramUser.first_name || '',
+                lastName: telegramUser.last_name || '',
+                username: telegramUser.username || '',
+                photoUrl: telegramUser.photo_url || ''
+            };
+            
+            fetch(backendUrl + endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(userData)
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                if (data && data.success) {
+                    // Store user data
+                    if (data.data.token) {
+                        localStorage.setItem('token', data.data.token);
+                    }
+                    if (data.data.user) {
+                        localStorage.setItem('user', JSON.stringify(data.data.user));
+                    }
+                    
+                    hideLoading();
+                    
+                    if (isExistingUser) {
+                        var welcomeName = (data.data.user && data.data.user.username) || 
+                                        telegramUser.first_name || 'User';
+                        showSuccess(
+                            'Welcome Back!',
+                            'Great to see you again, ' + welcomeName + '!',
+                            'dashboard.html',
+                            1500
+                        );
+                    } else {
+                        showSuccess(
+                            'Account Created!',
+                            'Welcome! You have received ₦100 starting bonus.',
+                            'dashboard.html',
+                            1500
+                        );
+                    }
+                    
+                } else {
+                    throw new Error(data ? data.error : 'Operation failed');
+                }
+            })
+            .catch(function(error) {
+                hideLoading();
+                console.error('Process error:', error);
+                showError('Operation failed: ' + error.message);
+            });
+        }
+
+        // Show manual login
+        function showManualLogin() {
+            document.getElementById('manualLogin').style.display = 'block';
+            hideLoading();
+        }
+
+        // Manual login
+        function manualLogin() {
+            var username = document.getElementById('manualUsername').value.trim();
+            var password = document.getElementById('manualPassword').value;
+            
+            if (!username || !password) {
+                showError('Please enter both username and password');
+                return;
+            }
+            
+            showLoading('Logging in...');
+            
+            var backendUrl = window.location.origin;
+            
+            fetch(backendUrl + '/api/auth/manual/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    username: username,
+                    password: password
+                })
+            })
+            .then(function(response) {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(function(data) {
+                if (data && data.success) {
+                    localStorage.setItem('token', data.data.token);
+                    localStorage.setItem('user', JSON.stringify(data.data.user));
+                    
+                    hideLoading();
+                    showSuccess(
+                        'Login Successful!',
+                        'Welcome back, ' + data.data.user.username + '!',
+                        'dashboard.html',
+                        1500
+                    );
+                } else {
+                    throw new Error(data ? data.error : 'Login failed');
+                }
+            })
+            .catch(function(error) {
+                hideLoading();
+                showError('Login failed: ' + error.message);
+            });
+        }
+
+        // Initialize app
+        function initApp() {
+            createBackgroundParticles();
+            
+            // Check if we're in Telegram
+            if (window.Telegram && window.Telegram.WebApp) {
+                initTelegramApp();
+            } else {
+                // Not in Telegram, show manual login after delay
+                setTimeout(function() {
+                    showManualLogin();
+                    hideLoading();
+                }, 1000);
+            }
+        }
+
+        // Start when page loads
+        document.addEventListener('DOMContentLoaded', function() {
+            initApp();
+        });
+
+        // Global functions for button clicks
+        window.processTelegramUser = processTelegramUser;
+        window.manualLogin = manualLogin;
+    </script>
+</body>
+  </html>
