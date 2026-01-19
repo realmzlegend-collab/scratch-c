@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile - Scratch C</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* UI AND STRUCTURE PRESERVED */
+        :root {
+            --primary: #FFD700; --secondary: #FF0000; --accent: #0000FF;
+            --dark: #121212; --light: #FFFFFF; --gray: #2D2D2D;
+            --gradient: linear-gradient(135deg, #FFD700, #FFA500, #FF0000);
+        }
+        body { background: #0a0a0a; color: var(--light); font-family: 'Segoe UI', sans-serif; }
+        .container { max-width: 500px; margin: 0 auto; padding: 20px; padding-bottom: 100px; }
+        
+        .header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 30px; }
+        .logo-small { 
+            width: 40px; height: 40px; 
+            background: var(--gradient); border-radius: 10px;
+            /* LOGO LOAD FIX */
+            background-image: url('logo.svg'); background-size: cover;
+        }
+
+        .profile-card {
+            background: rgba(255, 255, 255, 0.05); border-radius: 25px;
+            padding: 30px; text-align: center; border: 1px solid rgba(255, 215, 0, 0.2);
+            margin-bottom: 25px;
+        }
+        .profile-avatar {
+            width: 100px; height: 100px; border-radius: 50%;
+            background: var(--gradient); margin: 0 auto 15px;
+            display: flex; align-items: center; justify-content: center;
+            font-size: 40px; color: var(--dark); font-weight: bold;
+        }
+        .stat-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        .stat-item { background: rgba(255,255,255,0.05); padding: 15px; border-radius: 15px; }
+        
+        .nav-bar {
+            position: fixed; bottom: 0; left: 0; right: 0;
+            background: rgba(20, 20, 20, 0.95); backdrop-filter: blur(10px);
+            display: flex; justify-content: space-around; padding: 15px;
+            border-top: 1px solid rgba(255,215,0,0.2); z-index: 1000;
+        }
+        .nav-item { color: rgba(255,255,255,0.5); text-decoration: none; text-align: center; font-size: 12px; }
+        .nav-item.active { color: var(--primary); }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo-small"></div>
+            <h2 style="color: var(--primary)">Profile</h2>
+            <button onclick="logout()" style="background:none; border:none; color:var(--secondary); font-size: 20px;">
+                <i class="fas fa-sign-out-alt"></i>
+            </button>
+        </div>
+
+        <div class="profile-card">
+            <div class="profile-avatar" id="avatarIcon">U</div>
+            <h2 id="userName">Loading...</h2>
+            <p id="userStatus" style="color: var(--primary); font-size: 14px; margin-top: 5px;">Active Member</p>
+        </div>
+
+        <div class="stat-grid">
+            <div class="stat-item">
+                <div style="font-size: 12px; opacity: 0.7;">Balance</div>
+                <div style="font-size: 20px; font-weight: bold; color: var(--primary);" id="userBalance">₦0.00</div>
+            </div>
+            <div class="stat-item">
+                <div style="font-size: 12px; opacity: 0.7;">Total Earned</div>
+                <div style="font-size: 20px; font-weight: bold; color: #00FF00;" id="totalEarned">₦0.00</div>
+            </div>
+        </div>
+    </div>
+
+    <nav class="nav-bar">
+        <a href="dashboard.html" class="nav-item"><i class="fas fa-home"></i><div>Home</div></a>
+        <a href="reading.html" class="nav-item"><i class="fas fa-book"></i><div>Reading</div></a>
+        <a href="cinema.html" class="nav-item"><i class="fas fa-film"></i><div>Cinema</div></a>
+        <a href="profile.html" class="nav-item active"><i class="fas fa-user"></i><div>Profile</div></a>
+    </nav>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+            const token = localStorage.getItem('token');
+            if (!token) { window.location.href = 'index.html'; return; }
+
+            try {
+                const res = await fetch('/api/auth/profile', {
+                    headers: { 'Authorization': 'Bearer ' + token }
+                });
+                const data = await res.json();
+                
+                if (data.success) {
+                    document.getElementById('userName').textContent = data.user.username;
+                    document.getElementById('userBalance').textContent = '₦' + data.user.balance.toFixed(2);
+                    document.getElementById('avatarIcon').textContent = data.user.username.charAt(0).toUpperCase();
+                } else { throw new Error(); }
+            } catch (err) {
+                localStorage.clear();
+                window.location.href = 'index.html';
+            }
+        });
+
+        function logout() {
+            localStorage.clear();
+            window.location.href = 'index.html';
+        }
+    </script>
+</body>
+</html>
