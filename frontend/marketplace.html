@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace - Scratch C</title>
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7111358981076444" crossorigin="anonymous"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* UI AND STRUCTURE PRESERVED */
+        :root {
+            --primary: #FFD700; --secondary: #FF0000; --accent: #0000FF;
+            --dark: #121212; --light: #FFFFFF; --gray: #2D2D2D;
+        }
+        body { background: var(--dark); color: var(--light); font-family: 'Segoe UI', sans-serif; margin: 0; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+        .header { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 2px solid var(--primary); margin-bottom: 30px; }
+        
+        /* LOGO LOAD FROM logo.svg */
+        .logo { display: flex; align-items: center; gap: 10px; }
+        .logo-img { width: 40px; height: 40px; background-image: url('logo.svg'); background-size: cover; border-radius: 8px; }
+        
+        .items-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 20px; }
+        .item-card { background: rgba(255, 255, 255, 0.05); border-radius: 15px; overflow: hidden; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <div class="logo">
+                <div class="logo-img"></div>
+                <h1 style="font-size: 24px; color: var(--primary);">Marketplace</h1>
+            </div>
+            <a href="dashboard.html" style="color: white; text-decoration: none;">← Back</a>
+        </div>
+
+        <div class="items-grid" id="itemsGrid">
+            </div>
+
+        <div style="margin-top: 30px; text-align: center;">
+            <ins class="adsbygoogle" style="display:block" data-ad-client="ca-pub-7111358981076444" data-ad-slot="YOUR_SLOT_ID" data-ad-format="auto"></ins>
+            <script>(adsbygoogle = window.adsbygoogle || []).push({});</script>
+        </div>
+    </div>
+    <script>
+        // Auth check and logic
+        const token = localStorage.getItem('token');
+        if (!token) window.location.href = 'index.html';
+    </script>
+</body>
+</html>
