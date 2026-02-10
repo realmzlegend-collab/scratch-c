@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Games Arena - Scratch C</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/games.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="games-container">
+        <!-- Header -->
+        <header class="games-header">
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back
+            </a>
+            <h1><i class="fas fa-gamepad"></i> Games Arena</h1>
+            <div class="header-stats">
+                <div class="stat">
+                    <i class="fas fa-trophy"></i>
+                    <span>Wins: <strong id="totalWins">0</strong></span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Earned: <strong id="gamesEarnings">₦0.00</strong></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="games-main">
+            <!-- Game Categories -->
+            <nav class="game-categories">
+                <button class="category-btn active" data-category="all">All Games</button>
+                <button class="category-btn" data-category="skill">Skill Games</button>
+                <button class="category-btn" data-category="prediction">Predictions</button>
+                <button class="category-btn" data-category="tournament">Tournaments</button>
+                <button class="category-btn" data-category="instant">Instant Win</button>
+                <button class="category-btn" data-category="challenge">Challenges</button>
+            </nav>
+
+            <!-- Featured Tournament -->
+            <section class="featured-tournament">
+                <div class="tournament-card">
+                    <div class="tournament-badge">GRAND PRIZE</div>
+                    <div class="tournament-info">
+                        <h2>Weekly Challenge</h2>
+                        <h3>₦50,000 Grand Prize</h3>
+                        <p>Compete against other players in our weekly tournament</p>
+                        <div class="tournament-details">
+                            <div class="detail">
+                                <i class="fas fa-users"></i>
+                                <span>Players: <strong>1,245</strong></span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-clock"></i>
+                                <span>Ends in: <strong>2 days</strong></span>
+                            </div>
+                            <div class="detail">
+                                <i class="fas fa-trophy"></i>
+                                <span>Prize Pool: <strong>₦250,000</strong></span>
+                            </div>
+                        </div>
+                        <button class="btn btn-primary btn-lg" id="joinTournamentBtn">
+                            <i class="fas fa-play"></i> Join Tournament (₦500)
+                        </button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Games Grid -->
+            <section class="games-section">
+                <h2>Popular Games</h2>
+                <div class="games-grid">
+                    <!-- Game Card 1: Prediction -->
+                    <div class="game-card" data-game="prediction">
+                        <div class="game-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="game-info">
+                            <h3>Price Predictions</h3>
+                            <p>Predict crypto/stock prices and win big</p>
+                            <div class="game-stats">
+                                <span><i class="fas fa-users"></i> 5K playing</span>
+                                <span><i class="fas fa-trophy"></i> ₦10K prizes</span>
+                            </div>
+                            <div class="game-action">
+                                <span class="entry-fee">Entry: ₦50</span>
+                                <button class="btn btn-primary btn-play" data-game-id="prediction">
+                                    Play Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Game Card 2: Typing Test -->
+                    <div class="game-card" data-game="skill">
+                        <div class="game-icon">
+                            <i class="fas fa-keyboard"></i>
+                        </div>
+                        <div class="game-info">
+                            <h3>Typing Challenge</h3>
+                            <p>Test your typing speed against others</p>
+                            <div class="game-stats">
+                                <span><i class="fas fa-users"></i> 3K playing</span>
+                                <span><i class="fas fa-trophy"></i> ₦5K prizes</span>
+                            </div>
+                            <div class="game-action">
+                                <span class="entry-fee">Entry: ₦100</span>
+                                <button class="btn btn-primary btn-play" data-game-id="typing">
+                                    Play Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Game Card 3: Spin Wheel -->
+                    <div class="game-card" data-game="instant">
+                        <div class="game-icon">
+                            <i class="fas fa-redo"></i>
+                        </div>
+                        <div class="game-info">
+                            <h3>Spin Wheel</h3>
+                            <p>Spin daily to win credits and prizes</p>
+                            <div class="game-stats">
+                                <span><i class="fas fa-users"></i> 10K playing</span>
+                                <span><i class="fas fa-gift"></i> Free daily spin</span>
+                            </div>
+                            <div class="game-action">
+                                <span class="entry-fee">Free</span>
+                                <button class="btn btn-primary btn-play" data-game-id="spin">
+                                    Spin Now
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- More game cards... -->
+                </div>
+            </section>
+
+            <!-- Live Competitions -->
+            <section class="competitions-section">
+                <h2>Live Competitions</h2>
+                <div class="competitions-list" id="liveCompetitions">
+                    <!-- Live competitions will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Virtual Stock Market -->
+            <section class="stock-market-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-chart-bar"></i> Virtual Stock Market</h2>
+                    <button class="btn btn-outline" id="viewMarketBtn">View Market</button>
+                </div>
+                <div class="stocks-grid">
+                    <!-- Stock items will be loaded here -->
+                </div>
+            </section>
+        </main>
+
+        <!-- Game Modals -->
+        <div class="modal game-modal" id="predictionGameModal">
+            <div class="game-content">
+                <!-- Prediction game content -->
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/games.js"></script>
+</body>
+  </html>
