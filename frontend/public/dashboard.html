@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - Scratch C</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dashboard.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <!-- Loading -->
+    <div id="loading-spinner" class="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Sidebar Navigation -->
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <a href="/" class="logo">
+                    <i class="fas fa-gem"></i>
+                    <span>Scratch<span class="highlight">C</span></span>
+                </a>
+                <button class="sidebar-toggle" id="sidebarToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+
+            <div class="user-profile">
+                <img src="images/default-avatar.png" alt="User Avatar" id="userAvatar">
+                <h3 id="userName">Loading...</h3>
+                <p class="user-level">Level <span id="userLevel">1</span></p>
+                <div class="user-balance">
+                    <i class="fas fa-wallet"></i>
+                    <span id="userBalance">₦0.00</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a href="dashboard.html" class="nav-item active">
+                    <i class="fas fa-home"></i> Dashboard
+                </a>
+                <a href="profile.html" class="nav-item">
+                    <i class="fas fa-user"></i> My Profile
+                </a>
+                <a href="reading.html" class="nav-item">
+                    <i class="fas fa-book-reader"></i> Read & Earn
+                </a>
+                <a href="cinema.html" class="nav-item">
+                    <i class="fas fa-film"></i> Watch & Earn
+                </a>
+                <a href="earn.html" class="nav-item">
+                    <i class="fas fa-money-bill-wave"></i> Earn Money
+                </a>
+                <a href="games.html" class="nav-item">
+                    <i class="fas fa-gamepad"></i> Games
+                </a>
+                <a href="marketplace.html" class="nav-item">
+                    <i class="fas fa-store"></i> Marketplace
+                </a>
+                <a href="chat.html" class="nav-item">
+                    <i class="fas fa-comments"></i> Messages
+                    <span class="badge" id="messageCount">0</span>
+                </a>
+                <a href="referral.html" class="nav-item">
+                    <i class="fas fa-users"></i> Refer & Earn
+                </a>
+                <a href="store.html" class="nav-item">
+                    <i class="fas fa-palette"></i> Store
+                </a>
+                <a href="pricing.html" class="nav-item">
+                    <i class="fas fa-crown"></i> Upgrade
+                </a>
+                
+                <div class="sidebar-divider"></div>
+                
+                <a href="support.html" class="nav-item">
+                    <i class="fas fa-question-circle"></i> Support
+                </a>
+                <a href="#" id="logoutBtn" class="nav-item">
+                    <i class="fas fa-sign-out-alt"></i> Logout
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="daily-streak">
+                    <i class="fas fa-fire"></i>
+                    <span>Daily Streak: <strong id="streakDays">0</strong> days</span>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="main-header">
+                <h1>Dashboard</h1>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="quickEarnBtn">
+                        <i class="fas fa-bolt"></i> Quick Earn
+                    </button>
+                    <button class="btn btn-outline" id="withdrawBtn">
+                        <i class="fas fa-money-check-alt"></i> Withdraw
+                    </button>
+                </div>
+            </header>
+
+            <!-- Stats Overview -->
+            <section class="stats-overview">
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-icon income">
+                            <i class="fas fa-money-bill-wave"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="todayEarnings">₦0.00</h3>
+                            <p>Today's Earnings</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon tasks">
+                            <i class="fas fa-tasks"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3 id="completedTasks">0/5</h3>
+                            <p>Daily Tasks</p>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-card">
+                            <div class="stat-icon referrals">
+                                <i class="fas fa-users"></i>
+                            </div>
+                            <div class="stat-info">
+                                <h3 id="referralCount">0</h3>
+                                <p>Referrals</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="stat-card">
+                        <div class="stat-icon level">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <div class="stat-info">
+                            <h3>Level <span id="currentLevel">1</span></h3>
+                            <p>Progress: <span id="levelProgress">0%</span></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Quick Actions -->
+            <section class="quick-actions">
+                <h2 class="section-title">Quick Actions</h2>
+                <div class="actions-grid">
+                    <div class="action-card" onclick="window.location.href='reading.html'">
+                        <i class="fas fa-book-reader"></i>
+                        <h3>Read & Earn</h3>
+                        <p>Earn ₦10-₦500 per article</p>
+                    </div>
+
+                    <div class="action-card" onclick="window.location.href='cinema.html'">
+                        <i class="fas fa-film"></i>
+                        <h3>Watch & Earn</h3>
+                        <p>Earn ₦5-₦200 per video</p>
+                    </div>
+
+                    <div class="action-card" onclick="window.location.href='games.html'">
+                        <i class="fas fa-gamepad"></i>
+                        <h3>Play Games</h3>
+                        <p>Win up to ₦10,000</p>
+                    </div>
+
+                    <div class="action-card" onclick="window.location.href='referral.html'">
+                        <i class="fas fa-user-plus"></i>
+                        <h3>Refer Friends</h3>
+                        <p>Earn 20% commission</p>
+                    </div>
+
+                    <div class="action-card" onclick="window.location.href='earn.html#offerwall'">
+                        <i class="fas fa-gift"></i>
+                        <h3>Offerwall</h3>
+                        <p>Complete tasks for money</p>
+                    </div>
+
+                    <div class="action-card" onclick="window.location.href='marketplace.html'">
+                        <i class="fas fa-shopping-cart"></i>
+                        <h3>Marketplace</h3>
+                        <p>Buy/Sell items</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Daily Spin Wheel -->
+            <section class="dashboard-spin">
+                <h2 class="section-title">Daily Spin Wheel</h2>
+                <div class="spin-container">
+                    <div class="wheel-preview" id="dashboardWheel">
+                        <!-- Wheel visualization -->
+                    </div>
+                    <div class="spin-info">
+                        <h3>Free Spin Available!</h3>
+                        <p>Spin the wheel to win credits, badges, and more!</p>
+                        <button class="btn btn-primary btn-spin" id="dashboardSpinBtn">
+                            <i class="fas fa-redo"></i> SPIN NOW
+                        </button>
+                        <p class="spin-note"><i class="fas fa-info-circle"></i> 1 free spin daily</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Recent Activity -->
+            <section class="recent-activity">
+                <h2 class="section-title">Recent Activity</h2>
+                <div class="activity-list" id="activityList">
+                    <div class="activity-item">
+                        <i class="fas fa-book activity-icon reading"></i>
+                        <div class="activity-details">
+                            <h4>Reading Article</h4>
+                            <p>+₦25 earned</p>
+                            <span class="activity-time">2 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <i class="fas fa-film activity-icon watching"></i>
+                        <div class="activity-details">
+                            <h4>Watched Video</h4>
+                            <p>+₦10 earned</p>
+                            <span class="activity-time">4 hours ago</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <i class="fas fa-users activity-icon referral"></i>
+                        <div class="activity-details">
+                            <h4>Referral Bonus</h4>
+                            <p>+₦200 earned</p>
+                            <span class="activity-time">1 day ago</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Withdrawal Panel -->
+            <section class="withdrawal-panel">
+                <h2 class="section-title">Withdraw Earnings</h2>
+                <div class="withdrawal-card">
+                    <div class="withdrawal-info">
+                        <h3>Available Balance: <span id="availableBalance">₦0.00</span></h3>
+                        <p>Minimum withdrawal: ₦500</p>
+                    </div>
+                    <div class="withdrawal-form">
+                        <div class="form-group">
+                            <label for="withdrawAmount">Amount (₦)</label>
+                            <input type="number" id="withdrawAmount" min="500" step="100" placeholder="500">
+                        </div>
+                        <div class="form-group">
+                            <label for="withdrawMethod">Method</label>
+                            <select id="withdrawMethod">
+                                <option value="bank">Bank Transfer</option>
+                                <option value="paystack">Paystack</option>
+                                <option value="airtime">Airtime</option>
+                            </select>
+                        </div>
+                        <button class="btn btn-primary" id="requestWithdrawal">Request Withdrawal</button>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Quick Earn Modal -->
+    <div class="modal" id="quickEarnModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Quick Earn Tasks</h2>
+            <div class="tasks-list" id="quickTasksList">
+                <!-- Tasks will be loaded here -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Withdrawal Modal -->
+    <div class="modal" id="withdrawalModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Withdraw Funds</h2>
+            <form id="withdrawalForm">
+                <!-- Form content -->
+            </form>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/auth.js"></script>
+    <script src="js/dashboard.js"></script>
+    <script src="js/spin-wheel.js"></script>
+</body>
+  </html>
