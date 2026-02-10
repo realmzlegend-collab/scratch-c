@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scratch C - Earn While You Entertain</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Scratch C - Africa's premier entertainment and earning platform. Read, watch, play, and earn money!">
+    <meta name="keywords" content="earn money online, entertainment platform, Nigeria, Africa, reading, watching, gaming">
+    <meta name="author" content="Scratch C">
+    
+    <!-- Favicon -->
+    <link rel="icon" href="favicon.ico" type="image/x-icon">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+    
+    <!-- Styles -->
+    <link rel="stylesheet" href="css/style.css">
+    
+    <!-- Google Ads -->
+    <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7111358981076444" crossorigin="anonymous"></script>
+</head>
+<body>
+    <!-- Loading Spinner -->
+    <div id="loading-spinner" class="loading-spinner">
+        <div class="spinner"></div>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="/" class="logo">
+                <i class="fas fa-gem"></i>
+                <span>Scratch<span class="highlight">C</span></span>
+            </a>
+            
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active">Home</a>
+                <a href="#earn" class="nav-link">Earn</a>
+                <a href="#read" class="nav-link">Read</a>
+                <a href="#watch" class="nav-link">Watch</a>
+                <a href="#games" class="nav-link">Games</a>
+                <a href="#marketplace" class="nav-link">Marketplace</a>
+                <a href="#pricing" class="nav-link">Pricing</a>
+                <a href="#about" class="nav-link">About</a>
+            </div>
+            
+            <div class="nav-actions">
+                <div class="balance-display">
+                    <i class="fas fa-wallet"></i>
+                    <span id="user-balance">₦0.00</span>
+                </div>
+                <button class="btn btn-login" id="loginBtn">Login</button>
+                <button class="btn btn-primary" id="signupBtn">Sign Up Free</button>
+                <button class="menu-toggle" id="menuToggle">
+                    <i class="fas fa-bars"></i>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container hero-container">
+            <div class="hero-content">
+                <h1 class="hero-title">Earn While You <span class="highlight">Entertain</span></h1>
+                <p class="hero-subtitle">Africa's #1 platform to make money while reading, watching movies, playing games, and more!</p>
+                
+                <div class="hero-stats">
+                    <div class="stat">
+                        <h3>50,000+</h3>
+                        <p>Active Earners</p>
+                    </div>
+                    <div class="stat">
+                        <h3>₦500M+</h3>
+                        <p>Paid Out</p>
+                    </div>
+                    <div class="stat">
+                        <h3>100+</h3>
+                        <p>Earning Ways</p>
+                    </div>
+                </div>
+                
+                <div class="hero-actions">
+                    <button class="btn btn-primary btn-lg" id="startEarningBtn">
+                        <i class="fas fa-rocket"></i> Start Earning Now
+                    </button>
+                    <button class="btn btn-outline btn-lg" id="watchDemoBtn">
+                        <i class="fas fa-play-circle"></i> Watch Demo
+                    </button>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <img src="images/hero-illustration.svg" alt="Earning Platform Illustration">
+            </div>
+        </div>
+    </section>
+
+    <!-- Earning Methods Section -->
+    <section class="section earning-methods" id="earn">
+        <div class="container">
+            <h2 class="section-title">10+ Ways to <span class="highlight">Earn Money</span></h2>
+            <p class="section-subtitle">Choose your favorite way to make money online</p>
+            
+            <div class="methods-grid">
+                <div class="method-card">
+                    <div class="method-icon">
+                        <i class="fas fa-book-reader"></i>
+                    </div>
+                    <h3>Read & Earn</h3>
+                    <p>Get paid for reading books and articles</p>
+                    <span class="earn-amount">₦10 - ₦500 per article</span>
+                </div>
+                
+                <div class="method-card">
+                    <div class="method-icon">
+                        <i class="fas fa-film"></i>
+                    </div>
+                    <h3>Watch & Earn</h3>
+                    <p>Earn money watching videos and movies</p>
+                    <span class="earn-amount">₦5 - ₦200 per video</span>
+                </div>
+                
+                <div class="method-card">
+                    <div class="method-icon">
+                        <i class="fas fa-gamepad"></i>
+                    </div>
+                    <h3>Play & Earn</h3>
+                    <p>Win cash prizes in games and tournaments</p>
+                    <span class="earn-amount">₦100 - ₦10,000 prizes</span>
+                </div>
+                
+                <div class="method-card">
+                    <div class="method-icon">
+                        <i class="fas fa-users"></i>
+                    </div>
+                    <h3>Refer & Earn</h3>
+                    <p>Earn 20% commission on referrals</p>
+                    <span class="earn-amount">₦200 per referral</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Daily Spin Wheel -->
+    <section class="section spin-wheel-section">
+        <div class="container">
+            <h2 class="section-title">Daily <span class="highlight">Spin Wheel</span></h2>
+            <p class="section-subtitle">Spin daily to win amazing prizes!</p>
+            
+            <div class="wheel-container">
+                <div class="wheel" id="spinWheel">
+                    <!-- Wheel segments will be generated by JavaScript -->
+                </div>
+                <button class="btn btn-primary btn-spin" id="spinBtn">
+                    <i class="fas fa-redo"></i> SPIN NOW
+                </button>
+                <div class="wheel-info">
+                    <p><i class="fas fa-sync-alt"></i> 1 free spin daily</p>
+                    <p><i class="fas fa-plus-circle"></i> Extra spins: ₦100 each</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Auth Modals -->
+    <div class="modal" id="loginModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Login to Scratch C</h2>
+            <form id="loginForm">
+                <div class="form-group">
+                    <label for="loginEmail">Email or Username</label>
+                    <input type="text" id="loginEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="loginPassword">Password</label>
+                    <input type="password" id="loginPassword" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Login</button>
+                <p class="auth-link">Don't have an account? <a href="#" id="showSignup">Sign up</a></p>
+            </form>
+        </div>
+    </div>
+
+    <div class="modal" id="signupModal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <h2>Join Scratch C</h2>
+            <form id="signupForm">
+                <div class="form-group">
+                    <label for="signupUsername">Username</label>
+                    <input type="text" id="signupUsername" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupEmail">Email</label>
+                    <input type="email" id="signupEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="signupPassword">Password</label>
+                    <input type="password" id="signupPassword" required>
+                </div>
+                <div class="form-group">
+                    <label for="referralCode">Referral Code (Optional)</label>
+                    <input type="text" id="referralCode">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Create Account</button>
+                <p class="auth-link">Already have an account? <a href="#" id="showLogin">Login</a></p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-col">
+                    <h3>Scratch C</h3>
+                    <p>Africa's premier entertainment and earning platform.</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-telegram"></i></a>
+                        <a href="#"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <a href="#home">Home</a>
+                    <a href="#earn">Earn Money</a>
+                    <a href="#read">Read & Earn</a>
+                    <a href="#watch">Watch & Earn</a>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Legal</h4>
+                    <a href="#">Terms of Service</a>
+                    <a href="#">Privacy Policy</a>
+                    <a href="#">Cookie Policy</a>
+                    <a href="#">Disclaimer</a>
+                </div>
+                
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <p><i class="fas fa-envelope"></i> support@scratch-c.com</p>
+                    <p><i class="fas fa-phone"></i> +234 800 000 0000</p>
+                    <p><i class="fas fa-map-marker-alt"></i> Lagos, Nigeria</p>
+                </div>
+            </div>
+            
+            <div class="footer-bottom">
+                <p>&copy; 2024 Scratch C. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="js/auth.js"></script>
+    <script src="js/main.js"></script>
+    <script src="js/spin-wheel.js"></script>
+    
+    <!-- AdSense Ads -->
+    <script>
+        // AdSense code
+        (adsbygoogle = window.adsbygoogle || []).push({});
+    </script>
+    
+    <!-- AdGem Integration -->
+    <div id="adgem-iframe-container" style="display: none;">
+        <iframe id="adgem-iframe" src="https://api.adgem.com/v1/wall?appid=31739&playerid=" 
+                style="position:fixed; top:0; left:0; width:100%; height:100%; border:none;"></iframe>
+    </div>
+</body>
+  </html>
