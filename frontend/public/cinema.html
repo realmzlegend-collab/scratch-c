@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch & Earn - Scratch C</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/cinema.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="cinema-container">
+        <!-- Header -->
+        <header class="cinema-header">
+            <a href="dashboard.html" class="back-btn">
+                <i class="fas fa-arrow-left"></i> Back to Dashboard
+            </a>
+            <h1><i class="fas fa-film"></i> Watch & Earn</h1>
+            <div class="header-stats">
+                <div class="stat">
+                    <i class="fas fa-play-circle"></i>
+                    <span>Videos Watched: <strong id="videosWatched">0</strong></span>
+                </div>
+                <div class="stat">
+                    <i class="fas fa-money-bill-wave"></i>
+                    <span>Earned: <strong id="watchingEarnings">₦0.00</strong></span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="cinema-main">
+            <!-- Video Categories -->
+            <nav class="video-categories">
+                <button class="category-btn active" data-category="all">
+                    <i class="fas fa-globe"></i> All Videos
+                </button>
+                <button class="category-btn" data-category="movies">
+                    <i class="fas fa-film"></i> Movies
+                </button>
+                <button class="category-btn" data-category="series">
+                    <i class="fas fa-tv"></i> Series
+                </button>
+                <button class="category-btn" data-category="comedy">
+                    <i class="fas fa-laugh"></i> Comedy
+                </button>
+                <button class="category-btn" data-category="music">
+                    <i class="fas fa-music"></i> Music Videos
+                </button>
+                <button class="category-btn" data-category="documentary">
+                    <i class="fas fa-graduation-cap"></i> Documentaries
+                </button>
+                <button class="category-btn" data-category="short">
+                    <i class="fas fa-clock"></i> Short Videos
+                </button>
+            </nav>
+
+            <!-- Featured Video -->
+            <section class="featured-video">
+                <div class="featured-info">
+                    <h2>Featured Video</h2>
+                    <h3 id="featuredTitle">The Rise of African Tech</h3>
+                    <p id="featuredDescription">Discover the amazing growth of technology startups across Africa...</p>
+                    <div class="featured-meta">
+                        <span><i class="far fa-clock"></i> 15 min</span>
+                        <span><i class="fas fa-money-bill-wave"></i> ₦50 earnings</span>
+                        <span><i class="far fa-eye"></i> 10,245 views</span>
+                    </div>
+                    <button class="btn btn-primary btn-lg" id="watchFeaturedBtn">
+                        <i class="fas fa-play"></i> Watch & Earn ₦50
+                    </button>
+                </div>
+                <div class="featured-player">
+                    <div class="video-placeholder" id="featuredPreview">
+                        <i class="fas fa-play-circle"></i>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Videos Grid -->
+            <section class="videos-section">
+                <h2>Recommended Videos</h2>
+                <div class="videos-grid" id="videosGrid">
+                    <!-- Videos will be loaded dynamically -->
+                    <div class="video-card">
+                        <div class="video-thumbnail">
+                            <img src="images/video1.jpg" alt="Video Thumbnail">
+                            <div class="video-overlay">
+                                <div class="video-earnings">₦25</div>
+                                <div class="video-duration">5:30</div>
+                            </div>
+                        </div>
+                        <div class="video-info">
+                            <h3 class="video-title">Nigerian Comedy Skit</h3>
+                            <p class="video-description">Hilarious comedy skit that will make your day</p>
+                            <div class="video-meta">
+                                <span><i class="far fa-eye"></i> 5.2K</span>
+                                <span><i class="far fa-thumbs-up"></i> 89%</span>
+                            </div>
+                            <button class="btn btn-primary btn-sm btn-watch" data-video-id="1">
+                                <i class="fas fa-play"></i> Watch
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- More video cards... -->
+                </div>
+            </section>
+
+            <!-- Live Videos -->
+            <section class="live-section">
+                <div class="section-header">
+                    <h2><i class="fas fa-broadcast-tower"></i> Live Now</h2>
+                    <span class="live-badge">LIVE</span>
+                </div>
+                <div class="live-grid" id="liveGrid">
+                    <!-- Live streams will be loaded here -->
+                </div>
+            </section>
+
+            <!-- Upload Video -->
+            <section class="upload-video-section">
+                <div class="upload-card">
+                    <div class="upload-content">
+                        <h2><i class="fas fa-upload"></i> Upload Your Videos</h2>
+                        <p>Share your content and earn money from views</p>
+                        <ul class="upload-benefits">
+                            <li><i class="fas fa-check"></i> Earn ₦5-₦200 per view</li>
+                            <li><i class="fas fa-check"></i> Keep 60% of earnings</li>
+                            <li><i class="fas fa-check"></i> Monetize your content</li>
+                            <li><i class="fas fa-check"></i> Build your channel</li>
+                        </ul>
+                        <button class="btn btn-primary btn-lg" id="uploadVideoBtn">
+                            <i class="fas fa-cloud-upload-alt"></i> Upload Video
+                        </button>
+                    </div>
+                    <div class="upload-stats">
+                        <div class="stat">
+                            <h3>₦500K+</h3>
+                            <p>Paid to Creators</p>
+                        </div>
+                        <div class="stat">
+                            <h3>1M+</h3>
+                            <p>Total Views</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Video Player Modal -->
+        <div class="modal video-modal" id="videoModal">
+            <div class="video-player-content">
+                <div class="video-player-header">
+                    <button class="close-video">&times;</button>
+                    <h3 id="videoPlayerTitle">Video Title</h3>
+                </div>
+                <div class="video-player-container">
+                    <video id="videoPlayer" controls>
+                        <source src="" type="video/mp4">
+                        Your browser does not support the video tag.
+                    </video>
+                    <div class="video-earning-info">
+                        <div class="earning-timer">
+                            <i class="fas fa-clock"></i>
+                            <span>Watched: <strong id="watchTime">0:00</strong> / <span id="totalTime">0:00</span></span>
+                        </div>
+                        <div class="earning-amount">
+                            <i class="fas fa-money-bill-wave"></i>
+                            <span>Earnings: <strong id="videoEarnings">₦0</strong></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="video-actions">
+                    <button class="btn btn-primary" id="claimEarningsBtn">
+                        <i class="fas fa-check-circle"></i> Claim Earnings
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/auth.js"></script>
+    <script src="js/cinema.js"></script>
+</body>
+  </html>
